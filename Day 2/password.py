@@ -4,7 +4,8 @@ import re
 def main():
     file = open("input.txt", "r")
 
-    total = 0
+    total_1 = 0
+    total_2 = 0
 
     for line in file.readlines():
         line = line.strip()
@@ -15,16 +16,17 @@ def main():
         end = int(listPos[1])
         char = policy.split()[1]
 
-        a = password[start-1] == char
-        b = password[end-1] == char
+        a = password[start - 1] == char
+        b = password[end - 1] == char
         test = (a and not b) or (not a and b)
 
-        print(f"{start} | {char} | {end} => {password} = {test}")
+        if start <= password.count(char) <= end:
+            total_1 += 1
         if test:
-            total +=1
+            total_2 += 1
 
-        # if (password.count(char) >= start and password.count(char) <= end):
-        #     total +=1
-    print(total)
+    print(f"Total amount of right passwords at puzzle 1: {total_1}")
+    print(f"Total amount of right passwords at puzzle 2: {total_2}")
+
 
 main()
