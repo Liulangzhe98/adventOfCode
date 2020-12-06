@@ -21,8 +21,7 @@ def main():
     for passport in passportList:
         newList = (" ".join(passport)).split(" ")
         
-        if (len(newList) == 8) or 
-        (len(newList) == 7 and not ("cid:" in str(newList))):
+        if (len(newList) == 8) or (len(newList) == 7 and not ("cid:" in str(newList))):
             valid += 1
             valid2 += checkValidity(newList)
 
