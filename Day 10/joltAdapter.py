@@ -1,7 +1,6 @@
 def main():
     f = open("input.txt", "r")
-    #f = open("test2.txt", "r")
-
+  
     adapters = []
     for line in f.readlines():
         line = line.strip()
