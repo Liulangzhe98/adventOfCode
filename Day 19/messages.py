@@ -3,7 +3,7 @@ import re
 def main():
     #415 -> a((aa|bb)(ab|ba)|(ab|ba)(aa|bb))b
     
-    with open("input.txt", "r") as openobj:
+    with open("test2.txt", "r") as openobj:
         rules = []
         messages = []
         for line in openobj:
@@ -14,7 +14,10 @@ def main():
             else:
                 messages.append(line)
     rules = sorted(rules, key = lambda x: int(x[0]))
-    headrule =  rules[0][1]
+    
+    rules = {rule[0] : rule[1] for rule in rules}
+    print(rules)
+    headrule =  rules['0']
     print(f"Headrule : {headrule}")
         
     while re.search("\d", headrule):
@@ -22,7 +25,7 @@ def main():
         newRule = ""
         for toReplace in headrule.split(" "):
             if toReplace.isdigit():
-                replacement = rules[int(toReplace)][1]
+                replacement = rules[toReplace]
                 if "|" in replacement:
                     newRule += " ( "+replacement+" ) "
                 else:
