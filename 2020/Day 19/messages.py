@@ -3,6 +3,7 @@ import re
 def main():
     #415 -> a((aa|bb)(ab|ba)|(ab|ba)(aa|bb))b
     
+    #Hardcoded the changes into the input file
     with open("input.txt", "r") as openobj:
         rules = []
         messages = []
@@ -21,23 +22,10 @@ def main():
     print(f"Headrule : {headrule}")
         
     while re.search("\d", headrule):
-    #for _ in range(2):
         newRule = ""
         for toReplace in headrule.split(" "):
             if toReplace.isdigit():
                 replacement = rules[toReplace]
-                #if toReplace in replacement: # special inf loop protection
-                    #a = [x for x in replacement.split(" | ") if toReplace not in x]
-                    #if toReplace == '8':
-                        #newRule += " ( "  + "".join(a) + " )+ "
-                    #else:
-                        #rule_11 = ""
-                        #for x in range(1,5):
-                            #options = "".join(a).split(" ")
-                            #rule_11 += f"( ({options[0]} ){{{x}}}({options[1]} ){{{x}}} )"
-                        #print(rule_11)
-                    
-                #else:
                 if "|" in replacement:
                     newRule += " ( "+replacement+" ) "
                 else:
@@ -53,7 +41,6 @@ def main():
     for message in messages:
         if not re.search(headrule, message) == None:
             count += 1
-        #print(f"M: {re.search(headrule, message)} | {message}")
     print(count)
 
 main()
