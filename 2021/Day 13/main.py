@@ -1,3 +1,5 @@
+import re
+
 def print_as_matrix(matrix):
     print("[")
     for i in range(len(matrix)):
@@ -35,50 +37,25 @@ def part_one(coords, instructions):
     print(f"Answer: {sum([''.join(x).count('#') for x in paper])}")
 
 
-
 def part_two(coords, instructions):
     coords = [(int(a[0]), int(a[1])) for a in coords]
     instructions = [(a[0], int(a[1])) for a in instructions]
-    max_x, max_y = 0,0
-    for axis, fold_line in instructions:
-        new_coords = []
-        print(f"Folding across {axis}={fold_line}")
-
-    # coord = (x, y) coord[0] coord[1]
-
-        if axis == 'x':
-            for x, y in coords:
-                if x > fold_line:
-                    # print(x, y)
-                    diff = x-fold_line
-                    new_coords.append((x-2*diff, y))   
-                else:
-                    new_coords.append((x, y))     
-            max_x = fold_line       
-        else:
-            for x, y in coords:
-                if y > fold_line:
-                    # print(x, y)
-                    diff = y-fold_line
-                    new_coords.append((x, y-2*diff))
-                else:
-                    new_coords.append((x, y))    
-                max_y = fold_line  
-        coords = list(set(new_coords.copy()))
-        coords.sort()
-        print(coords)
-        print(len(coords))
-    paper = [["." for _ in range(max_x)] for _ in range(max_y)]
+   
+    max_x = max(coords,key=lambda x: x[0])[0]
+    max_y = max(coords,key=lambda x: x[1])[1] 
+   
+    paper = [[" " for _ in range(max_x+1)]  for _ in range(max_y+1)] 
     for x, y in coords:
-        print(x, y, paper)
         paper[y][x] = "#"
+    
+    for axis, fold_line in instructions:
+        if axis == 'x':
+            paper = [["#" if "#" in pair else " " for pair in zip(row, row[::-1])][:fold_line] for row in paper]
+        else:
+            paper = [paper[r1] if (r2 > max_y) else ['#' if '#' in x else ' ' for x in list(zip(paper[r1], paper[r2]))] for r1, r2 in zip(range(fold_line), range(fold_line*2, fold_line, -1) )]
+    print("(2) What code do you use to activate the infrared thermal imaging camera system?")
     print_as_matrix(paper)
     
-    pass
-    # print("(2) What is the first step during which all octopuses flash?")
-    # print(f"Answer: {step}")
-
-import re
 
 def main():
     with open("input.txt") as file:
