@@ -1,13 +1,13 @@
 def part_one(file_path):
     with open(file_path, 'r') as file:
-        for line in file.readlines():
+        for line in file.read().splitlines():
             continue
     return None
 
 
 def part_two(file_path):
     with open(file_path, 'r') as file:
-        for line in file.readlines():
+        ffor line in file.read().splitlines():
             continue
     return None
 
