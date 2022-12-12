@@ -3,7 +3,7 @@ class Monkey(object):
     def __init__(self, items, operation, test, next_m):
         super(Monkey, self).__init__()
         self.items = items
-        self.operation = operation
+        self.operation = compile(operation, "<string>", "eval")
         self.test = test 
         self.next_m = next_m[::-1] # So that true goes to index 1 and false to 0
         self.inspected = 0
@@ -23,12 +23,13 @@ def parser(monkey_blob):
     next_m = [int(x) for i in [4, 5] for x in lines[i].split("monkey ")[1]]
     return Monkey(items, op, test, next_m)
 
-def solve(monkeys, rounds=20, operator = "//3"):
+def solve(monkeys, rounds=20, operator = lambda x: x//3):
     for _ in range(rounds):
         for m in monkeys:
             while m.items != []:
                 old = m.pop_item()
-                new = eval(f"({m.operation}) {operator}") 
+                new = operator(eval(m.operation))
+
                 monkeys[m.next_m[new % m.test == 0]].add_item(new)
     monkeys = sorted(monkeys, key=lambda x: x.inspected, reverse=True)
     return monkeys[0].inspected*monkeys[1].inspected
@@ -50,15 +51,22 @@ def part_two(file_path):
     modulo = 1
     for m in monkeys:
         modulo *= m.test
-    return solve(monkeys, 10000, f"%{modulo}")
+    return solve(monkeys, 10000, lambda x: x%modulo)
+
+
+def timed_print(text, func, file):
+    import time
+    start = time.time()
+    result = func(file)
+    end = time.time()
+    print(f"{text} took {(end-start)*1000:>8.2f}ms : {result} ")
 
 
 def main():
-    print(f"Solution 1T: {part_one('test.txt')}")
-    print(f"Solution 2T: {part_two('test.txt')}")
-    print(f"Solution 1 : {part_one('input.txt')}")
-    print(f"Solution 2 : {part_two('input.txt')}")
-    
+    timed_print("Solution 1T", part_one, "test.txt")
+    timed_print("Solution 2T", part_two, "test.txt")
+    timed_print("Solution 1 ", part_one, "input.txt")
+    timed_print("Solution 2 ", part_two, "input.txt")
 
 if __name__ == "__main__":
     main()
