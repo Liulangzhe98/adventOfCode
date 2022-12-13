@@ -1,5 +1,7 @@
 from itertools import zip_longest
 from functools import cmp_to_key
+import json
+j = json.loads
 
 
 def int_check(a, b):
@@ -29,13 +31,10 @@ def logic(lhs, rhs):
     return 0
 
 
-
 def part_one(file_path):
     pairs = []
     with open(file_path, 'r') as file:
-        for pair in file.read().split("\n\n"):
-            lhs, rhs = pair.split("\n")
-            pairs.append((eval(lhs), eval(rhs)))
+        pairs = [[j(x) for x in p.split()] for p in file.read().split("\n\n")]
     return sum(
         [e for e, (lhs, rhs) in enumerate(pairs, 1) if logic(lhs, rhs)*-1 == 1])
 
@@ -43,12 +42,8 @@ def part_one(file_path):
 def part_two(file_path):
     A = [[2]]
     B = [[6]]
-
-    packets = []
     with open(file_path, 'r') as file:
-        for pair in file.read().split("\n\n"):
-            lhs, rhs = pair.split()
-            packets.extend([eval(lhs), eval(rhs)])
+       packets = [j(x)  for p in file.read().split("\n\n") for x in p.split()]
     packets.extend([A, B])
     packets.sort(key=cmp_to_key(logic))
     return (packets.index(A)+1)*(packets.index(B)+1)
