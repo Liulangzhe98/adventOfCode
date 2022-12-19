@@ -11,12 +11,13 @@ def part_two(file_path):
             continue
     return None
 
+
 def timed_print(text, func, file):
     import time
     start = time.time()
     result = func(file)
     end = time.time()
-    print(f"{text} took {(end-start)*1000:>8.2f}ms : {result} ")
+    print(f"\033[96m{text} took {(end-start)*1000:>8.2f}ms : {result} \033[0m")
 
 
 def main():
@@ -25,5 +26,6 @@ def main():
     timed_print("Solution 1 ", part_one, "input.txt")
     timed_print("Solution 2 ", part_two, "input.txt")
     
+
 if __name__ == "__main__":
     main()
