@@ -23,20 +23,14 @@ def part_two(file_path):
             a = list(line) 
             direction = a[0]
             amount = int("".join(a[1:]))
-            
-
-            if direction == "R":
-                if dial + amount > 100:
-                    count += (dial + amount) // 100
-                dial = (dial + amount) % 100
-            else:
-                if dial - amount < 0 and dial != 0:
-                    print("here", dial-amount, (dial - amount)//100)
-                    count += abs((dial - amount) // 100) 
-                dial = (dial - amount) % 100
-            if dial == 0:
-                count += 1
-            print(direction, amount, dial, count)
+            for i in range(amount):
+                if direction == "R":
+                    dial += 1
+                else:
+                    dial -= 1
+                dial = dial % 100
+                if dial == 0:
+                    count += 1
     return count
 
 
