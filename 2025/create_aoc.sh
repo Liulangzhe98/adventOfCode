@@ -2,8 +2,8 @@
 
 day=${1?Missing day modifier.}
 
-mkdir "Day $day"
-cp template.py "Day $day/main.py"
-touch "Day $day/test.txt" "Day $day/input.txt"
-echo "Succesfully created the folder for Day $day"
-cd "Day $day"
+mkdir "day_$day"
+cp template.py "day_$day/main.py"
+touch "day_$day/test.txt" "day_$day/input.txt"
+echo "Succesfully created the folder for day_$day"
+cd "day_$day"
